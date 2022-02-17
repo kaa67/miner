@@ -1,6 +1,7 @@
+import { setRowsCount } from "."
 import { IMine, IMineClick, IMineField } from "../../../interfaces"
 
-const primaryMine: IMine = {
+const mine: IMine = {
     isOpen: false,
     isMark: false,
     isMine: false,
@@ -21,10 +22,10 @@ export const initial: IMineField = {
     rowsMax: 20,
     rowsStep: 1,
 
-    fieldRatio: 80,
+    fieldRatio: 50,
     fieldMin: 10,
-    fieldMax: 95,
-    fieldStep: 5,
+    fieldMax: 100,
+    fieldStep: 1,
 
     minesRatio: 10,
     minesMin: 10,
@@ -32,25 +33,32 @@ export const initial: IMineField = {
     minesStep: 2,
 }
 
-export const generate = () => ([
-    ...Array(10).fill([
-        ...Array(16).fill({ ...primaryMine })
-    ])
-])
+export const generate = (params: number[]): IMine[][] => {
+    const [rowsCount, columnsCount] = params
+
+    return  Array(rowsCount).fill(Array(columnsCount).fill(null))
+        .map(row => row.map(() => ({ ...mine })))
+}
 
 export const mineClickHandle = (
     mineField: IMineField,
     click: IMineClick
 ): IMineField => {
-    const { mines } = mineField
+    const field = { ...mineField }
     const { rowId, colId, code } = click
-    const mine = mines[rowId][colId]
+    const mine = field.mines[rowId][colId]
 
-    if ((code === 0) && !mine.isOpen) mine.isOpen = true //Left Button
-    if (code === 2) mine.isMark = !mine.isMark // Right Button
+    //Left Button
+    if ((code === 0) && !mine.isOpen && !mine.isMark)
+        mine.isOpen = true
 
-    return {
-        ...mineField,
-        ...mines,
+    // Right Button
+    if ((code === 2) && !mine.isOpen) {
+        mine.isMark = !mine.isMark
+        mine.caption = mine.isMark ? '*' : ''
     }
+
+    field.mines[rowId][colId] = mine
+
+    return field
 }

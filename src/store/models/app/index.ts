@@ -24,14 +24,17 @@ export const resetTimer = createEvent()
 
 export const $app = createStore(initial)
     .on(setGameMode, (app, gameMode) => ({ ...app, gameMode }))
-    .on(setDimension, (app, width) => ({ ...app, width }))
+    .on(setDimension, (app, dimension) => ({ ...app, dimension }))
     .on(incrementTimer, app => ({ ...app, timer: app.timer + 1 }))
     .on(resetTimer, app => ({ ...app, timer: 0 }))
 
+// For mineSize calc
+export const $dimensionWidth = $app.map(app => app.dimension.width)
+
 guard({
     clock: tick,
-    source: { app: $app, mf: $mineField },
-    filter: ({ app, mf }) => app.gameMode === 'game',
+    source: $app,
+    filter: app => app.gameMode === 'game',
     target: incrementTimer
 })
 

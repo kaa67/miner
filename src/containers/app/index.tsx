@@ -17,8 +17,8 @@ const App: React.FC = () => {
       height: window.innerHeight
     })
 
-    window.addEventListener('resize', set)
     set()
+    window.addEventListener('resize', set)
 
     return () => window.removeEventListener('resize', set)
   }, []);
