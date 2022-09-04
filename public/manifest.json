@@ -1,6 +1,6 @@
 {
-  "short_name": "React App with Effector and TypeScript",
-  "name": "Create React App with TypeScript Effector Template Sample",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#ff8c00",
+  "theme_color": "#000000",
   "background_color": "#ffffff"
 }
