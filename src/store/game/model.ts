@@ -1,4 +1,4 @@
-import { createEvent, sample } from 'effector';
+import { createEvent, forward } from 'effector';
 
 import {
     gameTimerStart,
@@ -10,12 +10,13 @@ import {
 export const gameStart = createEvent();
 export const gameStop = createEvent();
 
-sample({
-    clock: gameStart,
-    target: [gameTimerReset, gameTimerStart],
+// Buisness
+forward({
+    from: gameStart,
+    to: [gameTimerReset, gameTimerStart],
 });
 
-sample({
-    clock: gameStop,
-    target: gameTimerStop,
+forward({
+    from: gameStop,
+    to: gameTimerStop,
 });
